@@ -23,19 +23,36 @@ version: "4.0"
 
 ## 🤖 Dành Cho AI Agent (Agentic Auto-Setup Protocol)
 
-Khi một AI Agent nhận được yêu cầu cài đặt hoặc kích hoạt bộ skill `viet-pro`, Agent **PHẢI** thực hiện theo các bước tự động sau:
+Khi một AI Agent nhận được yêu cầu cài đặt hoặc kích hoạt bộ skill `viet-pro`, Agent **PHẢI** thực hiện theo các bước dưới đây. **BẮT BUỘC SỬ DỤNG DỮ LIỆU THẬT (REAL DIRECTORY), TUYỆT ĐỐI KHÔNG SỬ DỤNG SYMLINK (ln -s / mklink) HAY BASH FUNCTION VÌ SẼ GÂY LỖI.**
 
-### Bước 1: Clone Repository về Plugin Directory của Antigravity
+### Bước 1: Lấy Plugin Về Thư Mục Config Tùy Theo Hệ Điều Hành
 
-Chạy lệnh terminal sau để tải plugin vào đúng vị trí nhận diện mặc định của Antigravity:
-
+**1. Trên macOS / Linux:**
 ```bash
+# Tạo thư mục config nếu chưa có
 mkdir -p ~/.gemini/config/plugins
+
+# Xóa symlink/thư mục cũ (nếu có) để đảm bảo copy dữ liệu thật
+rm -rf ~/.gemini/config/plugins/viet-pro-plugin
+
+# Clone dữ liệu thật trực tiếp từ Github
 git clone https://github.com/abm-dungtq/viet-pro-plugin.git ~/.gemini/config/plugins/viet-pro-plugin
 ```
 
+**2. Trên Windows (PowerShell):**
+```powershell
+# Tạo thư mục config nếu chưa có
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\config\plugins"
+
+# Xóa symlink/thư mục cũ (nếu có)
+Remove-Item -Recurse -Force "$env:USERPROFILE\.gemini\config\plugins\viet-pro-plugin" -ErrorAction SilentlyContinue
+
+# Clone dữ liệu thật trực tiếp từ Github
+git clone https://github.com/abm-dungtq/viet-pro-plugin.git "$env:USERPROFILE\.gemini\config\plugins\viet-pro-plugin"
+```
+
 > [!TIP]
-> Nếu bạn sử dụng Claude Code hoặc môi trường CLI khác, hãy sao chép thư mục skills và agents vào vị trí tương ứng:
+> Nếu bạn sử dụng Claude Code hoặc môi trường CLI khác trên macOS/Linux, hãy sao chép thư mục skills và agents thật vào vị trí tương ứng (KHÔNG dùng symlink):
 > ```bash
 > mkdir -p ~/.claude/skills ~/.claude/agents
 > cp -r ~/.gemini/config/plugins/viet-pro-plugin/skills/viet-pro ~/.claude/skills/
@@ -47,8 +64,10 @@ git clone https://github.com/abm-dungtq/viet-pro-plugin.git ~/.gemini/config/plu
 AI Agent chạy lệnh kiểm thử tự động để đảm bảo môi trường Node.js và script linting hoạt động hoàn hảo:
 
 ```bash
+# Lệnh Node.js này chạy được trên mọi OS (Mac/Windows/Linux)
 node ~/.gemini/config/plugins/viet-pro-plugin/skills/viet-pro/scripts/lint-vietnamese-content.mjs --self-test
 ```
+*(Trên Windows, Agent dùng đường dẫn `%USERPROFILE%\.gemini\...` hoặc `$env:USERPROFILE\.gemini\...` tương ứng)*
 
 **Kỳ vọng kết quả:** `SELF-TEST PASS — bắt đủ 7 loại vi phạm, 0 false positive ERROR trên văn sạch`
 
@@ -64,17 +83,25 @@ node ~/.gemini/config/plugins/viet-pro-plugin/skills/viet-pro/scripts/package-vi
 
 ## 👤 Dành Cho Người Dùng (Manual Installation)
 
+**LƯU Ý QUAN TRỌNG:** Phải cài đặt dữ liệu thật trực tiếp vào thư mục hệ thống. **Tuyệt đối KHÔNG sử dụng lệnh Symlink (như `ln -s` trên Mac hoặc `mklink` trên Windows)** vì Antigravity/Claude Code sẽ không load được cấu hình.
+
 ### Phương án 1: Cài đặt Toàn cục (Global - Khuyên dùng)
 
-1. **Clone repo về máy:**
-   ```bash
-   git clone https://github.com/abm-dungtq/viet-pro-plugin.git ~/.gemini/config/plugins/viet-pro-plugin
-   ```
-2. **Khởi động lại Antigravity IDE / CLI** để nạp tự động plugin `viet-pro-plugin`.
+**Dành cho macOS / Linux (Terminal):**
+```bash
+git clone https://github.com/abm-dungtq/viet-pro-plugin.git ~/.gemini/config/plugins/viet-pro-plugin
+```
+
+**Dành cho Windows (Command Prompt hoặc PowerShell):**
+```cmd
+git clone https://github.com/abm-dungtq/viet-pro-plugin.git %USERPROFILE%\.gemini\config\plugins\viet-pro-plugin
+```
+
+Khởi động lại Antigravity IDE / CLI để nạp tự động plugin `viet-pro-plugin`.
 
 ### Phương án 2: Cài đặt Theo Workspace/Project
 
-1. **Copy folder plugin vào project của bạn:**
+1. **Clone folder plugin vào project của bạn (không dùng symlink):**
    ```bash
    git clone https://github.com/abm-dungtq/viet-pro-plugin.git ./plugins/viet-pro-plugin
    ```
