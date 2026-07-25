@@ -27,30 +27,23 @@ Khi một AI Agent nhận được yêu cầu cài đặt hoặc kích hoạt b�
 
 ### Bước 1: Lấy Plugin Về Thư Mục Config Tùy Theo Hệ Điều Hành
 
-**1. Trên macOS / Linux:**
+**1. Dành cho macOS / Linux (Terminal):**
 ```bash
-# Tạo thư mục config nếu chưa có
-mkdir -p ~/.gemini/config/plugins
-
-# Xóa symlink/thư mục cũ (nếu có) để đảm bảo copy dữ liệu thật
-rm -rf ~/.gemini/config/plugins/viet-pro-plugin
-
-# Clone dữ liệu thật trực tiếp từ Github
+# CÀI ĐẶT MỚI (Chạy lần đầu)
 git clone https://github.com/abm-dungtq/viet-pro-plugin.git ~/.gemini/config/plugins/viet-pro-plugin
+
+# CẬP NHẬT (Nếu đã cài rồi, tránh làm mất file .env)
+git -C ~/.gemini/config/plugins/viet-pro-plugin pull
 ```
 
-**2. Trên Windows (PowerShell):**
+**2. Dành cho Windows (PowerShell/CMD):**
 ```powershell
-# Tạo thư mục config nếu chưa có
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\config\plugins"
-
-# Xóa symlink/thư mục cũ (nếu có)
-Remove-Item -Recurse -Force "$env:USERPROFILE\.gemini\config\plugins\viet-pro-plugin" -ErrorAction SilentlyContinue
-
-# Clone dữ liệu thật trực tiếp từ Github
+# CÀI ĐẶT MỚI (Chạy lần đầu)
 git clone https://github.com/abm-dungtq/viet-pro-plugin.git "$env:USERPROFILE\.gemini\config\plugins\viet-pro-plugin"
-```
 
+# CẬP NHẬT (Nếu đã cài rồi, tránh làm mất file .env)
+git -C "$env:USERPROFILE\.gemini\config\plugins\viet-pro-plugin" pull
+```
 > [!TIP]
 > Nếu bạn sử dụng Claude Code hoặc môi trường CLI khác trên macOS/Linux, hãy sao chép thư mục skills và agents thật vào vị trí tương ứng (KHÔNG dùng symlink):
 > ```bash
@@ -89,14 +82,21 @@ node ~/.gemini/config/plugins/viet-pro-plugin/skills/viet-pro/scripts/package-vi
 
 **Dành cho macOS / Linux (Terminal):**
 ```bash
+# CÀI ĐẶT MỚI (Chạy lần đầu)
 git clone https://github.com/abm-dungtq/viet-pro-plugin.git ~/.gemini/config/plugins/viet-pro-plugin
+
+# CẬP NHẬT (Nếu đã cài rồi, tránh làm mất file .env)
+git -C ~/.gemini/config/plugins/viet-pro-plugin pull
 ```
 
-**Dành cho Windows (Command Prompt hoặc PowerShell):**
-```cmd
-git clone https://github.com/abm-dungtq/viet-pro-plugin.git %USERPROFILE%\.gemini\config\plugins\viet-pro-plugin
-```
+**Dành cho Windows (PowerShell/CMD):**
+```powershell
+# CÀI ĐẶT MỚI (Chạy lần đầu)
+git clone https://github.com/abm-dungtq/viet-pro-plugin.git "$env:USERPROFILE\.gemini\config\plugins\viet-pro-plugin"
 
+# CẬP NHẬT (Nếu đã cài rồi, tránh làm mất file .env)
+git -C "$env:USERPROFILE\.gemini\config\plugins\viet-pro-plugin" pull
+```
 Khởi động lại Antigravity IDE / CLI để nạp tự động plugin `viet-pro-plugin`.
 
 ### Phương án 2: Cài đặt Theo Workspace/Project
